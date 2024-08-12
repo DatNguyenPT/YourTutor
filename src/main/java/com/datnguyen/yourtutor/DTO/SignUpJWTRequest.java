@@ -2,13 +2,19 @@ package com.datnguyen.yourtutor.DTO;
 
 import lombok.*;
 
-@Builder
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginJWTRequest {
+@Builder
+public class SignUpJWTRequest {
     private String email;
     private String password;
+    private String retypePassword;
+    private String phoneNum;
+    private String name;
+    private LocalDate dob;
     private String role;
 }

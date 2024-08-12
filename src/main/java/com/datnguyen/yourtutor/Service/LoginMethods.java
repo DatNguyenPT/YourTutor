@@ -1,5 +1,8 @@
 package com.datnguyen.yourtutor.Service;
 
+import com.datnguyen.yourtutor.Security.AuthenticationResponse;
+import com.datnguyen.yourtutor.DTO.LoginJWTRequest;
+
 public interface LoginMethods {
-    String login();
+    AuthenticationResponse login(LoginJWTRequest loginJWTRequest);
 }

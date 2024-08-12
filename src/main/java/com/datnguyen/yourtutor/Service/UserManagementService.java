@@ -4,11 +4,10 @@ import com.datnguyen.yourtutor.DTO.Role;
 import com.datnguyen.yourtutor.DTO.UserManagement;
 import com.datnguyen.yourtutor.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,27 +17,37 @@ public class UserManagementService{
     public UserManagementService(UserRepo userRepo){
         this.userRepo = userRepo;
     }
-
-    // Need to implement pagination
-    public List<UserManagement> getAllTutorInfo() {
+    public List<UserManagement> getAllUserInfoByRole(String role) {
         return userRepo.findAll().stream()
-                .filter(um -> um.getRole().equals(Role.tutor))
+                .filter(um -> um.getRole().equals(role))
                 .collect(Collectors.toList());
     }
 
-    public UserManagement getTutorById(int id){
-        List<UserManagement>list = getAllTutorInfo();
+    public List<UserManagement> getAllUsers(){
+        return userRepo.findAll().stream()
+                .collect(Collectors.toList());
+    }
+
+    public UserManagement getUserById(String id){
+        List<UserManagement>list;
+        if(id.startsWith("S")){
+            list = getAllUserInfoByRole("STUDENT");
+        }else if(id.startsWith("T")){
+            list = getAllUserInfoByRole("TUTOR");
+        }else{
+            throw new IllegalArgumentException("INVALID ID");
+        }
         return list.stream()
                 .filter(tutor -> tutor.getId().equals(id))
                 .findFirst()
                 .orElse(null);
     }
 
-    public UserManagement getTutorByUsername(String name){
-        List<UserManagement>list = getAllTutorInfo();
+    public UserManagement getUserByEmail(String email){
+        List<UserManagement>list = getAllUsers();
         return list.stream()
-                .filter(tutor -> tutor.getUsername().equals(name))
+                .filter(um -> um.getUsername().equals(email))
                 .findFirst()
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElse(null);
     }
 }

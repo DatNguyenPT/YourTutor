@@ -2,7 +2,6 @@ package com.datnguyen.yourtutor.DTO;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@Table(name = "course")
+@Table(name = "course", schema = "public")
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

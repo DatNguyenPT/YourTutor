@@ -3,7 +3,7 @@ package com.datnguyen.yourtutor.DTO;
 import jakarta.persistence.*;
 import lombok.*;
 @Entity
-@Table(name="courseroom")
+@Table(name="courseroom", schema = "public")
 @Getter
 @Setter
 @AllArgsConstructor

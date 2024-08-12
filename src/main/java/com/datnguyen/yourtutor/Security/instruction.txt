@@ -1,0 +1,58 @@
+                                                                +---------------------------+
+                                                                |          User             |
+                                                                |  - username: String       |
+                                                                |  - password: String       |
+                                                                |  - role: Role             |
+                                                                +---------------------------+
+                                                                            |
+                                                                            |
+                                                                            v
+                                                                +---------------------------+
+                                                                |       JwtResponse         |
+                                                                |  - token: String          |
+                                                                +---------------------------+
+                                                                            |
+                                                                            |
+                                                                            v
+                                                                +---------------------------+
+                                                                |          Role             |
+                                                                |  - USER                  |
+                                                                |  - ADMIN                 |
+                                                                +---------------------------+
+                                                                            |
+                                                                            |
+                                                                            v
+                                                                +---------------------------+
+                                                                |       JwtService          |
+                                                                |  - extractUsername(token) |
+                                                                |  - extractClaim(token)    |
+                                                                |  - generateToken(details) |
+                                                                |  - validateToken(token)   |
+                                                                +---------------------------+
+                                                                            |
+                                                                            |
+                                                                            v
+                                                                +---------------------------+
+                                                                |       JWTAuthFilter       |
+                                                                |  - doFilterInternal       |
+                                                                |  - extract claim          |
+                                                                |  - validateToken          |
+                                                                +---------------------------+
+                                                                            |
+                                                                            |
+                                                                            v
+                                                                +---------------------------+
+                                                                |         AppConfig         |
+                                                                |  - passwordEncoder()      |
+                                                                |  - userDetailsService()   |
+                                                                |  - authenticationProvider |
+                                                                |  - authenticationManager  |
+                                                                +---------------------------+
+                                                                            |
+                                                                            |
+                                                                            v
+                                                                +---------------------------+
+                                                                |      SecurityConfig       |
+                                                                |  - configure(HttpSecurity)|
+                                                                |  - configure(AuthManager) |
+                                                                +---------------------------+

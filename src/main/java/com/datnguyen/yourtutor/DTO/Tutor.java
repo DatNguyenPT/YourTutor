@@ -2,37 +2,20 @@ package com.datnguyen.yourtutor.DTO;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name="tutor")
+@Table(name="tutor", schema = "public")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Builder
-public class Tutor {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String name;
-
-    private LocalDate dob;
-
-    private LocalDate joineddate;
-
+public class Tutor extends UserManagement{
     private Float rating;
-
-    private String phonenum;
-
     private String subjects;
-
-    private Integer yearexp;
+    @Column(name = "yearexp")
+    private Integer yearExp;
 
     @OneToMany(mappedBy = "tutor")
     List<Course>courses;
