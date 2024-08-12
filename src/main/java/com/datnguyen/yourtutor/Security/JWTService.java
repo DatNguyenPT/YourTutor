@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +18,16 @@ import java.util.function.Function;
 @Service
 public class JWTService {
     // Secret Key
+    @Value("${jwt.secret}")
+    private String secret;
+
+    private Key key;
+    @PostConstruct
+    public void init() {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+    }
     private Key getSignInKey() {
-        return Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        return key;
     }
 
     // Extract all claims
@@ -25,7 +35,7 @@ public class JWTService {
         return Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
                 .build()
-                .parseClaimsJwt(jwtToken)
+                .parseClaimsJws(jwtToken)
                 .getBody();
     }
 
