@@ -1,6 +1,7 @@
 package com.datnguyen.yourtutor.Service;
 
 import com.datnguyen.yourtutor.DTO.*;
+import com.datnguyen.yourtutor.ErrorHandling.ThrowUserInputException;
 import com.datnguyen.yourtutor.Repository.UserRepo;
 import com.datnguyen.yourtutor.Security.AuthenticationResponse;
 import com.datnguyen.yourtutor.Security.JWTService;
@@ -20,15 +21,13 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final ThrowUserInputException throwUserInputException;
+
+
     public AuthenticationResponse registration(SignUpJWTRequest signUpJWTRequest){
-        // Check if username already exists
-        if(userManagementService.getUserByEmail(signUpJWTRequest.getEmail()) != null){
-            throw new RuntimeException("Username already exists");
-        }
-        // Check if passwords match
-        if (!signUpJWTRequest.getPassword().equals(signUpJWTRequest.getRetypePassword())) {
-            throw new RuntimeException("Passwords do not match");
-        }
+        // Throw input exception
+        throwUserInputException.throwUserInput(signUpJWTRequest);
+
         String userID = "";
         String currentSize = String.valueOf(userManagementService.getAllUsers().size() + 1);
         Role role = null;
