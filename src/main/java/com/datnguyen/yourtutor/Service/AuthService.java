@@ -5,6 +5,7 @@ import com.datnguyen.yourtutor.ErrorHandling.ThrowUserInputException;
 import com.datnguyen.yourtutor.Repository.UserRepo;
 import com.datnguyen.yourtutor.Security.AuthenticationResponse;
 import com.datnguyen.yourtutor.Security.JWTService;
+import io.jsonwebtoken.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,14 +30,16 @@ public class AuthService {
         throwUserInputException.throwUserInput(signUpJWTRequest);
 
         String userID = "";
-        String currentSize = String.valueOf(userManagementService.getAllUsers().size() + 1);
+        String currentTutorSize = String.valueOf(userManagementService.getAllTutors().size() + 1);
+        String currentStudentSize = String.valueOf(userManagementService.getAllStudents().size() + 1);
+
         Role role = null;
 
         if(signUpJWTRequest.getRole().equals("STUDENT")){
-            userID = "S" + currentSize;
+            userID = "S" + currentStudentSize;
             role = Role.STUDENT;
         }else if (signUpJWTRequest.getRole().equals("TUTOR")){
-            userID = "T" + currentSize;
+            userID = "T" + currentTutorSize;
             role = Role.TUTOR;
         }
         System.out.println("Generated User ID: " + userID);
@@ -61,13 +64,23 @@ public class AuthService {
 
     public AuthenticationResponse authenticate(LoginJWTRequest loginJWTRequest){
         UserManagement user = userManagementService.getUserByEmail(loginJWTRequest.getEmail());
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginJWTRequest.getEmail(),
-                        loginJWTRequest.getPassword()
-                )
-        );
-        String jwtToken = jwtService.tokenGenerator(user);
+        String jwtToken = "Undefined";
+        try{
+            if(user.getRole().name().equals(loginJWTRequest.getRole())){
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                loginJWTRequest.getEmail(),
+                                loginJWTRequest.getPassword()
+                        )
+                );
+                jwtToken = jwtService.tokenGenerator(user);
+
+            }else{
+                jwtToken = "Undefined";
+            }
+        }catch (IllegalArgumentException | IOException e){
+            System.out.println(e.getMessage());
+        }
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();

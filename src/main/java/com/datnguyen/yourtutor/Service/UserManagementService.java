@@ -28,6 +28,18 @@ public class UserManagementService{
                 .collect(Collectors.toList());
     }
 
+    public List<UserManagement> getAllTutors(){
+        return userRepo.findAll().stream()
+                .filter(um -> um.getId().startsWith("T"))
+                .collect(Collectors.toList());
+    }
+
+    public List<UserManagement> getAllStudents(){
+        return userRepo.findAll().stream()
+                .filter(um -> um.getId().startsWith("S"))
+                .collect(Collectors.toList());
+    }
+
     public UserManagement getUserById(String id){
         List<UserManagement>list;
         if(id.startsWith("S")){
