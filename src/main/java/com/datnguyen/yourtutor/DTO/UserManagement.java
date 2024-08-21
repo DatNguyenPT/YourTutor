@@ -23,7 +23,8 @@ public class UserManagement implements UserDetails {
     @Id
     @Column(name = "id")
     private String id;
-    private String email;
+    @Column(name = "loginname")
+    private String loginName;
 
     @Column(name = "pass")
     private String pass;
@@ -54,7 +55,7 @@ public class UserManagement implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return this.loginName;
     }
 
     @Override

@@ -45,7 +45,7 @@ public class AuthService {
         System.out.println("Generated User ID: " + userID);
         // Proceed with registration
         UserManagement user = UserManagement.builder()
-                .email(signUpJWTRequest.getEmail())
+                .loginName(signUpJWTRequest.getUsername())
                 .pass(passwordEncoder.encode(signUpJWTRequest.getPassword()))
                 .id(userID)
                 .role(role)
@@ -63,13 +63,13 @@ public class AuthService {
     }
 
     public AuthenticationResponse authenticate(LoginJWTRequest loginJWTRequest){
-        UserManagement user = userManagementService.getUserByEmail(loginJWTRequest.getEmail());
+        UserManagement user = userManagementService.getUserByUsername(loginJWTRequest.getUsername());
         String jwtToken = "Undefined";
         try{
             if(user.getRole().name().equals(loginJWTRequest.getRole())){
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
-                                loginJWTRequest.getEmail(),
+                                loginJWTRequest.getUsername(),
                                 loginJWTRequest.getPassword()
                         )
                 );

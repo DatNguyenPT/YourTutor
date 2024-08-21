@@ -3,24 +3,21 @@ package com.datnguyen.yourtutor.Controller;
 import com.datnguyen.yourtutor.Security.JWTService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
-
-@CrossOrigin(origins = "http://127.0.0.1:5500", allowCredentials = "true", maxAge = 3600)
 @RestController
 @RequestMapping("/api/test-auth")
 public class TestController {
     private final JWTService jwtService;
-
     public TestController(JWTService jwtService) {
         this.jwtService = jwtService;
     }
@@ -47,5 +44,12 @@ public class TestController {
 
         String username = jwtService.extractUserName(jwtToken);
         return ResponseEntity.ok("This is a secured endpoint. Welcome, " + username + "!");
+
+        //return ResponseEntity.ok("THIS IS A SECURED ENDPOINT");
+    }
+
+    @GetMapping("/google/demo")
+    public String oauth2GGTest() {
+        return "THIS IS A SECURED ENDPOINT";
     }
 }

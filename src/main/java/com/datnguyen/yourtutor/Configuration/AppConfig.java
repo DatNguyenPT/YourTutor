@@ -18,7 +18,7 @@ public class AppConfig {
     private final UserManagementService userManagementService;
     @Bean
     public UserDetailsService userDetailsService(){
-        return email -> userManagementService.getUserByEmail(email);
+        return username -> userManagementService.getUserByUsername(username);
     }
     @Bean
     public PasswordEncoder passwordEncoder(){

@@ -33,8 +33,8 @@ public class UserInputService {
     public boolean isValidEmailAddress(String email) {
         return emailService.isValidEmailAddress(email);
     }
-    public boolean isEmailExisted(String email){
-        return userManagementService.getUserByEmail(email) != null;
+    public boolean isEmailExisted(String username){
+        return userManagementService.getUserByUsername(username) != null;
     }
     public boolean matchedPassword(String password, String retypePassword){
         return password.equals(retypePassword);

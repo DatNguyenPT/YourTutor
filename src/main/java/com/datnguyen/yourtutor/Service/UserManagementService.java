@@ -55,10 +55,10 @@ public class UserManagementService{
                 .orElse(null);
     }
 
-    public UserManagement getUserByEmail(String email){
+    public UserManagement getUserByUsername(String username){
         List<UserManagement>list = getAllUsers();
         return list.stream()
-                .filter(um -> um.getUsername().equals(email))
+                .filter(um -> um.getUsername().equals(username))
                 .findFirst()
                 .orElse(null);
     }

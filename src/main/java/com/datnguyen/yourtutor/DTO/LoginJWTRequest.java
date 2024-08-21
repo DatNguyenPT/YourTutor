@@ -11,9 +11,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginJWTRequest {
-    @NotEmpty(message = "Email cannot be empty")
-    @Email
-    private String email;
+    @NotEmpty(message = "Username cannot be empty")
+    @Size(min = 8, message = "Username should have at least 6 characters")
+    private String username;;
 
     @NotEmpty(message = "Password cannot be empty")
     @Size(min = 8, message = "Password should have at least 6 characters")

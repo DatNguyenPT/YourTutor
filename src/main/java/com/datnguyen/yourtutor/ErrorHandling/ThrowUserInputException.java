@@ -11,9 +11,6 @@ public class ThrowUserInputException {
     private final UserInputService userInputService;
     public void throwUserInput (SignUpJWTRequest signUpJWTRequest){
         // Sign up information
-        if(!userInputService.isValidEmailAddress(signUpJWTRequest.getEmail())){
-            throw new RuntimeException("Your email is not valid");
-        }
         if(!userInputService.isValidAgeForTutor(signUpJWTRequest.getDob()) && signUpJWTRequest.getRole().equals("TUTOR")){
             throw new RuntimeException("You are not old enough to be a tutor");
         }
@@ -21,7 +18,7 @@ public class ThrowUserInputException {
             throw new RuntimeException("You are not old enough to be a student");
         }
         // Check if username already exists
-        if(userInputService.isEmailExisted(signUpJWTRequest.getEmail())){
+        if(userInputService.isEmailExisted(signUpJWTRequest.getUsername())){
             throw new RuntimeException("This user is already exists");
         }
         // Check if passwords match
